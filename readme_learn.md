@@ -9,7 +9,35 @@
 ## tokenizer、analyzer
 附录1.1
 
+
+# 同义词
+// 附录1.1.1
+analyzer = [char_filter] + tokenizer + [token filter]
+
+分词过程中: 同义词在analyzer的[token filter]阶段 进行，
+同义词初始化和配置文件读取在es-6.5.0`org.elasticsearch.index.analysis.SynonymTokenFilterFactory.getRulesFromSettings`
+注意本质是读取的es索引mapping配置的同义词路径.
+
+## esv6.5.0 - 同义词的初始化，读取配置的地方
+idea书签
+```shell script
+org.elasticsearch.index.analysis.SynonymTokenFilterFactory.getRulesFromSettings
+```
+
+一个典型的包含同义词的自定义分词配置
+![包含同义词的分词过程](包含同义词的分词过程.png)
+
+### TODO 同义词的相对路径是相对哪里?
+```shell script
+
+```
+
+
 # 附录
 1.[IK分词器源码阅读笔记](https://www.aramigo.ltd/index.php/archives/88/)
 
-1.1 AnalysisIkPlugin.java中的tokenizer、analyzer [es中的analyzer，tokenizer，filter你真的了解吗？](https://cloud.tencent.com/developer/article/1851823?from=article.detail.1706529)
+1.1 AnalysisIkPlugin.java中的tokenizer、analyzer 
+[es中的analyzer，tokenizer，filter你真的了解吗？](https://cloud.tencent.com/developer/article/1851823?from=article.detail.1706529)
+[Elasticsearch Analyzer 的内部机制](https://mednoter.com/all-about-analyzer-part-one.html)
+
+1.1.1 同义词 [理解Elasticsearch分析器 analyzer](https://juejin.cn/post/6939396159983222815)
