@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+// ydd: tokenizer、analyzer
 public class AnalysisIkPlugin extends Plugin implements AnalysisPlugin {
 
 	public static String PLUGIN_NAME = "analysis-ik";
