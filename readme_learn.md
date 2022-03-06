@@ -32,6 +32,8 @@ org.elasticsearch.index.analysis.SynonymTokenFilterFactory.getRulesFromSettings
 
 ```
 
+## 该ik项目想要用同义词,应该把同义词文件放在哪里?
+应该不行。需要在es源码中配置同义词。
 
 # 附录
 1.[IK分词器源码阅读笔记](https://www.aramigo.ltd/index.php/archives/88/)
