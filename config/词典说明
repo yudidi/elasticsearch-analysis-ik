@@ -1,0 +1,7 @@
+# 附录1.
+main.dic：主词典，一些常用词
+preposition.dic：介词，类似“就”“也”“或”
+quantifier.dic：常用的量词
+stopword.dic：停用词
+suffix.dic：词尾，有“市”“巷”，也有类似“斯基”“诺夫”一样的人名词尾
+surname.dic：姓，百家姓
