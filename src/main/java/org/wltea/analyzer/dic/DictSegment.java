@@ -187,7 +187,7 @@ class DictSegment implements Comparable<DictSegment>{
 	 */
 	private synchronized void fillSegment(char[] charArray , int begin , int length , int enabled){
 		//获取字典表中的汉字对象
-		Character beginChar = Character.valueOf(charArray[begin]);
+		Character beginChar = Character.valueOf(charArray[begin]); // ydd 附录1.0 把词加入到字典中的逻辑
 		Character keyChar = charMap.get(beginChar);
 		//字典中没有该字，则将其添加入字典
 		if(keyChar == null){

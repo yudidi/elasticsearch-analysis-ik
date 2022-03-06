@@ -5,3 +5,5 @@ quantifier.dic：常用的量词
 stopword.dic：停用词
 suffix.dic：词尾，有“市”“巷”，也有类似“斯基”“诺夫”一样的人名词尾
 surname.dic：姓，百家姓
+
+extra*: 扩展词库,不配置则未使用

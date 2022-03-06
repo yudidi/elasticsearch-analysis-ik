@@ -95,13 +95,13 @@ public class Dictionary {
 	private final static  String REMOTE_EXT_STOP = "remote_ext_stopwords";
 
 	private Path conf_dir;
-	private Properties props;
+	private Properties props; // ydd: 读取IKAnalyzer.cfg.xml配置放入这个字段中存储着
 
 	private Dictionary(Configuration cfg) {
 		this.configuration = cfg;
 		this.props = new Properties();
 //		this.conf_dir = cfg.getEnvironment().configFile().resolve(AnalysisIkPlugin.PLUGIN_NAME);
-		this.conf_dir = Paths.get("/Users/didiyu/es-source-code/elasticsearch-analysis-ik/config");
+		this.conf_dir = Paths.get("/Users/didiyu/es-source-code/elasticsearch-analysis-ik/config"); // 附录1.0
 
 		Path configFile = conf_dir.resolve(FILE_NAME);
 
@@ -128,7 +128,7 @@ public class Dictionary {
 			}
 		}
 	}
-
+	// 读取IKAnalyzer.cfg.xml的配置
 	private String getProperty(String key){
 		if(props!=null){
 			return props.getProperty(key);
@@ -146,13 +146,13 @@ public class Dictionary {
 			synchronized (Dictionary.class) {
 				if (singleton == null) {
 
-					singleton = new Dictionary(cfg);
-					singleton.loadMainDict();
-					singleton.loadSurnameDict();
-					singleton.loadQuantifierDict();
-					singleton.loadSuffixDict();
-					singleton.loadPrepDict();
-					singleton.loadStopWordDict();
+					singleton = new Dictionary(cfg); // ydd: 根据配置初始化词典
+					singleton.loadMainDict(); // main.dic：主词典，一些常用词 // 同时加载 IKAnalyzer.cfg.xml 配置的扩展词典
+					singleton.loadSurnameDict(); // surname.dic：姓，百家姓
+					singleton.loadQuantifierDict(); // quantifier.dic：常用的量词
+					singleton.loadSuffixDict(); // suffix.dic：词尾，有“市”“巷”，也有类似“斯基”“诺夫”一样的人名词尾
+					singleton.loadPrepDict(); // preposition.dic：介词，类似“就”“也”“或”
+					singleton.loadStopWordDict(); // stopword.dic：停用词
 
 					if(cfg.isEnableRemoteDict()){
 						// 建立监控线程
