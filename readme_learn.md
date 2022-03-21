@@ -2,8 +2,11 @@
 # 详解了ik源码思路和代码的对应关系
 // 附录1
 3.1 词典构造
+
 3.2 分词
+
 3.3 消除歧义: 也就是说，在第三步这边，ik_smart会对结果比ik_max_word多一个筛选的过程。
+
 3.4 输出结果: 该部分的主要逻辑，就是对于那些没有被分词分到的位置，用单字输出的方式输出词元。
 
 ## tokenizer、analyzer
@@ -41,7 +44,9 @@ A: ik没有实现同义词，那是es的[token filter]的功能，ik插件只是
 
 # 附录
 1.[IK分词器源码阅读笔记](https://www.aramigo.ltd/index.php/archives/88/)
+
 1.0 [IK分词器原理--写死Dictionary中词典配置文件目录](https://juejin.cn/post/6845166891120476168)
+
     1.0.0 [IK分词器 原理分析 源码解析 -- 分步骤和函数的解析](https://www.cnblogs.com/jpfss/p/11413473.html)
 
 1.1 AnalysisIkPlugin.java中的tokenizer、analyzer 

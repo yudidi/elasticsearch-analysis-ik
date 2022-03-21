@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 词典树分段，表示词典树的一个分枝
+ * 词典树分段，表示词典树的一个分枝  // TODO 附录1.0[前缀树，结构如下图所示](https://juejin.cn/post/6845166891120476168#heading-2)
  */
 class DictSegment implements Comparable<DictSegment>{
 	
@@ -40,7 +40,7 @@ class DictSegment implements Comparable<DictSegment>{
 	private static final int ARRAY_LENGTH_LIMIT = 3;
 
 	
-	//Map存储结构
+	//Map存储结构 // TODO ydd 这里就是trie,看三篇博客都是节点存放字符的实现方式
 	private Map<Character , DictSegment> childrenMap;
 	//数组方式存储结构
 	private DictSegment[] childrenArray;
@@ -179,15 +179,15 @@ class DictSegment implements Comparable<DictSegment>{
 	}
 	
 	/**
-	 * 加载填充词典片段
+	 * 加载填充词典片段 // ydd 附录1.0 把词加入到字典中的逻辑
 	 * @param charArray
 	 * @param begin
 	 * @param length
-	 * @param enabled
+	 * @param enabled // ydd trie的词尾节点
 	 */
 	private synchronized void fillSegment(char[] charArray , int begin , int length , int enabled){
 		//获取字典表中的汉字对象
-		Character beginChar = Character.valueOf(charArray[begin]); // ydd 附录1.0 把词加入到字典中的逻辑
+		Character beginChar = Character.valueOf(charArray[begin]);
 		Character keyChar = charMap.get(beginChar);
 		//字典中没有该字，则将其添加入字典
 		if(keyChar == null){
