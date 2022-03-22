@@ -59,7 +59,7 @@ class CJKSegmenter implements ISegmenter {
 				Hit[] tmpArray = this.tmpHits.toArray(new Hit[this.tmpHits.size()]);
 				for(Hit hit : tmpArray){
 					hit = Dictionary.getSingleton().matchWithHit(context.getSegmentBuff(), context.getCursor() , hit);
-					if(hit.isMatch()){
+					if(hit.isMatch()){  // TODO 主流程 3 // 匹配了trie树中的词
 						//输出当前的词
 						Lexeme newLexeme = new Lexeme(context.getBufferOffset() , hit.getBegin() , context.getCursor() - hit.getBegin() + 1 , Lexeme.TYPE_CNWORD);
 						context.addLexeme(newLexeme);

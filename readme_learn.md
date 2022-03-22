@@ -42,6 +42,24 @@ A: ik没有实现同义词，那是es的[token filter]的功能，ik插件只是
 
 # 修改mian.dic观察词典初始化过程
 
+
+# 分词的主要过程
+//  附录 1.0.0 
+创建IKSegmenter时，需要传进来一个Reader实例，IK分词时，采用流式处理方式。
+
+在IKSegmenter的next()方法中，首先调用AnalyzeContext.fillBuffer(this.input)从Reader读取8K数据到到segmentBuff的char数组中，
+
+然后调用子分词器CJKSegmenter（中日韩文分词器），CN_QuantifierSegmenter（中文数量词分词器），LetterSegmenter（英文分词器）的analyze方法依次从头处理segmentBuff中的每一个字符。
+
+当子分词器处理完segmentBuff中所有字符后，字符的所有成词情况都已保存到上下文的orgLexemes字段中。
+
+调用分词歧义裁决器IKArbitrator，如果分词器使用细粒度模式（useSmart=false），则裁决器不做不做歧义处理，将上下文orgLexemes字段中所有成词情况全部保存到上下文pathMap中。
+
+# 消除歧义
+"耐克鞋","耐克","鞋"
+
+
+
 # 附录
 1.[IK分词器源码阅读笔记](https://www.aramigo.ltd/index.php/archives/88/)
 

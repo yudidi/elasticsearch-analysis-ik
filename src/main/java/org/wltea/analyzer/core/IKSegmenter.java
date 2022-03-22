@@ -59,7 +59,7 @@ public final class IKSegmenter {
 
 	
 	/**
-	 * 初始化
+	 * 初始化 // TODO 主流程 1
 	 */
 	private void init(){
 		//初始化分词上下文
@@ -108,7 +108,7 @@ public final class IKSegmenter {
 				//初始化指针
 				context.initCursor();
 				do{
-        			//遍历子分词器
+        			//遍历子分词器 // TODO 主流程 2: 分词的主要逻辑如下所示，采用类似懒加载的形式，第一次调用 segmenter.next()拿分词结果的时候，才进行分词。
         			for(ISegmenter segmenter : segmenters){
         				segmenter.analyze(context);
         			}
