@@ -44,7 +44,7 @@ class QuickSortSet {
 	 * @param lexeme
 	 */
 	boolean addLexeme(Lexeme lexeme){
-		Cell newCell = new Cell(lexeme); 
+		Cell newCell = new Cell(lexeme); //
 		if(this.size == 0){
 			this.head = newCell;
 			this.tail = newCell;
@@ -209,7 +209,7 @@ class QuickSortSet {
 	 * 
 	 */
 	class Cell implements Comparable<Cell>{
-		private Cell prev;
+		private Cell prev; // ydd 从这里看，应该双向链表。把词元Lexeme包装了到Cell中
 		private Cell next;
 		private Lexeme lexeme;
 		

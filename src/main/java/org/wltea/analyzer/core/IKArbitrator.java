@@ -43,10 +43,11 @@ class IKArbitrator {
 	 */
 	void process(AnalyzeContext context , boolean useSmart){
 		QuickSortSet orgLexemes = context.getOrgLexemes();
-		Lexeme orgLexeme = orgLexemes.pollFirst();
+		Lexeme orgLexeme = orgLexemes.pollFirst(); // ydd 取出1个词元.
 		
 		LexemePath crossPath = new LexemePath();
 		while(orgLexeme != null){
+			// ydd 什么叫相交? Done
 			if(!crossPath.addCrossLexeme(orgLexeme)){
 				//找到与crossPath不相交的下一个crossPath	
 				if(crossPath.size() == 1 || !useSmart){
@@ -67,7 +68,7 @@ class IKArbitrator {
 			}
 			orgLexeme = orgLexemes.pollFirst();
 		}
-		
+
 		
 		//处理最后的path
 		if(crossPath.size() == 1 || !useSmart){

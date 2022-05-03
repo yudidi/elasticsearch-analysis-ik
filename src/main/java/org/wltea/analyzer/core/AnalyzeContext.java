@@ -67,11 +67,15 @@ class AnalyzeContext {
     //该集合非空，说明有子分词器在占用segmentBuff
     private Set<String> buffLocker;
     
-    //原始分词结果集合，未经歧义处理
-    private QuickSortSet orgLexemes;    
+    //原始分词结果集合，未经歧义处理 // ydd 把词元封装为QuickSortSet.Cell，双向链表，用于消除歧义。
+    private QuickSortSet orgLexemes;
     //LexemePath位置索引表
-    private Map<Integer , LexemePath> pathMap;    
-    //最终分词结果集
+    private Map<Integer , LexemePath> pathMap;// TODO 这是啥?
+    //最终分词结果集  // 这个是消除歧义后的分词结果
+	// ydd 1个链表 操作有如下几种。 这里暂时理解为单向链表。
+	// 1.add 往链表中添加词元。
+	// 2:pollFirst() 检索并删除此列表的第一个元素，如果此列表为空，则返回null。
+	// 3.peekFirst() 只检查链表第一个元素。
     private LinkedList<Lexeme> results;
 	//分词器配置项
 	private Configuration cfg;
@@ -223,7 +227,8 @@ class AnalyzeContext {
 	 * @param lexeme
 	 */
 	void addLexeme(Lexeme lexeme){
-		this.orgLexemes.addLexeme(lexeme);
+		//System.out.println("注意这里并未设置Lexeme的词元文本(lexemeText=null)"); // 只设置了begin,length.type
+		this.orgLexemes.addLexeme(lexeme); // 可以debug看到2词 begin=2,length=1和2的结果,对应 的 和 的确
 	}
 	
 	/**
@@ -322,11 +327,12 @@ class AnalyzeContext {
 		while(result != null){
     		//数量词合并
     		this.compound(result);
+			System.out.println("判断是否匹配停止词,有match操作");
     		if(Dictionary.getSingleton().isStopWord(this.segmentBuff ,  result.getBegin() , result.getLength())){
        			//是停止词继续取列表的下一个
-    			result = this.results.pollFirst(); 				
+    			result = this.results.pollFirst(); 	//  ydd
     		}else{
-	 			//不是停止词, 生成lexeme的词元文本,输出
+	 			//不是停止词, 生成lexeme的词元文本,输出 // TODO ??? 直到最好才设置匹配文本? 为什么
 	    		result.setLexemeText(String.valueOf(segmentBuff , result.getBegin() , result.getLength()));
 	    		break;
     		}

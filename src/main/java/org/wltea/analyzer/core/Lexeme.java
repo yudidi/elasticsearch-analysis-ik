@@ -57,7 +57,7 @@ public class Lexeme implements Comparable<Lexeme>{
     //词元的长度
     private int length;
     //词元文本
-    private String lexemeText; // ydd: 读取切分好的词元气 // org.wltea.analyzer.core.Lexeme.getLexemeText()
+    private String lexemeText; // ydd: 读取切分好的词元气 // org.wltea.analyzer.core.Lexeme.getLexemeText() // TODO 词元文本不是在构造函数中设置的?
     //词元类型
     private int lexemeType;
     

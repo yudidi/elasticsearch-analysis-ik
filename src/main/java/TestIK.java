@@ -13,7 +13,11 @@ public class TestIK {
 //        testIkSegment();
 //        testIkSegmentSmart();
 
-        testIkSegmentNotSmart消除歧义();
+        //testIkSegmentNotSmart消除歧义();
+
+        testIkSegmentSmart消除歧义();
+
+        //testIkSegmentSmart最长匹配验证();  // 词库需要切换回来
     }
 
     /*
@@ -78,6 +82,44 @@ TODO
         Lexeme next;
         while ((next = segmenter.next()) != null) {
             System.out.println(next.getLexemeText());
+        }
+    }
+
+    //  TODO 验证是正向，反向，还是双向匹配 20220502
+    // Trie树由词的公共前缀构成节点，降低了存储空间的同时提升查找效率。
+    // 最大匹配分词将句子与Trie树进行匹配，在匹配到根结点时由下一个字重新开始进行查找。
+    // 比如正向（从左至右）匹配“他说的确实在理”，得出的结果为“他／说／的确／实在／理”。
+    // 如果进行反向最大匹配，则为“他／说／的／确实／在理”。
+    // https://zhuanlan.zhihu.com/p/50444885
+    public static void testIkSegmentSmart消除歧义() throws IOException {
+        String t = "他说的确实在理";
+        Settings settings = Settings.builder()
+                .put("use_smart", false) // 不消除歧义，简单一些
+                .put("enable_lowercase", false)
+                .put("enable_remote_dict", false)
+                .build();
+        Configuration configuration = new Configuration(null, settings).setUseSmart(true); // 读取配置，加载词典 // 这个setUseSmart多余了
+        IKSegmenter segmenter = new IKSegmenter(new StringReader(t), configuration);
+        Lexeme next;
+        while ((next = segmenter.next()) != null) {
+            System.out.println("分词结果>>>: " + next.getLexemeText());
+        }
+    }
+
+    // 经典的基于规则的匹配算法有：正向最长匹配、逆向最长匹配以及双向最长匹配等。
+    // https://zhuanlan.zhihu.com/p/505616542?utm_source=wechatMessage_undefined_bottom
+    public static void testIkSegmentSmart最长匹配验证() throws IOException {
+        String t = "生命科学项目的研究";
+        Settings settings = Settings.builder()
+                .put("use_smart", false) // 不消除歧义，简单一些
+                .put("enable_lowercase", false)
+                .put("enable_remote_dict", false)
+                .build();
+        Configuration configuration = new Configuration(null, settings).setUseSmart(true); // 读取配置，加载词典 // 这个setUseSmart多余了
+        IKSegmenter segmenter = new IKSegmenter(new StringReader(t), configuration);
+        Lexeme next;
+        while ((next = segmenter.next()) != null) {
+            System.out.println(">>>: " + next.getLexemeText());
         }
     }
 }
