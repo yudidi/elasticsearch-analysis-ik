@@ -32,7 +32,7 @@ public class Hit {
     //Hit完全匹配
     private static final int MATCH = 0x00000001;
     //Hit前缀匹配
-    private static final int PREFIX = 0x00000010;
+    private static final int PREFIX = 0x00000010; // ydd 16
 
 
     //该HIT当前状态，默认未匹配
@@ -72,10 +72,11 @@ public class Hit {
     }
 
     /**
-     *
+     * // ydd 位或运算符为|，其运算规则是：参与运算的数字，低位对齐，高位不足的补零。
+     * 如果对应的二进制位只要有一个为 1，那么结果就为 1；如果对应的二进制位都为 0，结果才为 0。
      */
     public void setPrefix() {
-        this.hitState = this.hitState | PREFIX;
+        this.hitState = this.hitState | PREFIX;  // 1 | 16 = 17 表示单字和前缀都匹配? // 16表示只有前缀匹配
     }
 
     /**
@@ -120,13 +121,32 @@ public class Hit {
     @Override
     public String toString() {
         if (matchedDictSegment == null) {
-            return null;
+            return "Hit{" +
+                    "hitState=" + hisStateConvert() +
+                    ", matchedDictSegment=" + null +
+                    ", begin=" + begin +
+                    ", end=" + end +
+                    '}';
         }
         return "Hit{" +
-                "hitState=" + hitState +
+                "hitState=" + hisStateConvert() +
                 ", matchedDictSegment=" + matchedDictSegment.getNodeChar() +
                 ", begin=" + begin +
                 ", end=" + end +
                 '}';
+    }
+
+    // // 1 | 16 = 17 表示单字和前缀都匹配? // 16表示只有前缀匹配
+    public String hisStateConvert() {
+        if (hitState == 16) {
+            return String.format("只有前缀匹配:%s", hitState);
+        }
+        if (hitState == 17) {
+            return String.format("单字和前缀都有匹配:%s", hitState);
+        }
+        if (hitState == MATCH) {
+            return String.format("完全匹配:%s", hitState);
+        }
+        return String.format("%d", hitState);
     }
 }

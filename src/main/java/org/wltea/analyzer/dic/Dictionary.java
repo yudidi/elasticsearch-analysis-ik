@@ -306,8 +306,7 @@ public class Dictionary {
     /**
      * 批量加载新词条
      *
-     * @param words
-     *            Collection<String>词条列表
+     * @param words Collection<String>词条列表
      */
     public void addWords(Collection<String> words) {
         if (words != null) {
@@ -345,7 +344,7 @@ public class Dictionary {
 
     /**
      * 检索匹配主词典
-     *
+     * <p>
      * ydd
      * charArray: 整个待匹配字符串
      * charArray[begin+length]: 判断其中的一部分是否是词典中的词。存在match递归调用，因为要每个字都要match一次
@@ -353,9 +352,10 @@ public class Dictionary {
      * @return Hit 匹配结果描述
      */
     public Hit matchInMainDict(char[] charArray, int begin, int length) {
+        System.out.format("判断整个字符串的一部分是否在词典中:%s, %d, %d \n",
+                Arrays.toString(Arrays.copyOfRange(charArray, begin, begin + length)), begin, length);
         Hit hit = singleton._MainDict.match(charArray, begin, length);
-        System.out.format("判断整个字符串的一部分是否在词典中:%s, %d, %d, hit(一次词典匹配):%s \n",
-                Arrays.toString(Arrays.copyOfRange(charArray, begin, begin + length)), begin, length, hit);
+        System.out.format("判断整个字符串的一部分是否在词典中,匹配结果,hit(一次词典匹配):%s \n\n", hit);
         return hit;
         //return singleton._MainDict.match(charArray, begin, length);
     }
@@ -509,20 +509,20 @@ public class Dictionary {
         _StopWords = new DictSegment((char) 0);
 
         // 读取主词典文件 // ydd 注释掉,英文停用词
-        //Path file = PathUtils.get(getDictRoot(), Dictionary.PATH_DIC_STOP);
+        Path file = PathUtils.get(getDictRoot(), Dictionary.PATH_DIC_STOP);
         //loadDictFile(_StopWords, file, false, "Main Stopwords");
 
         // 加载扩展停止词典
-        //List<String> extStopWordDictFiles = getExtStopWordDictionarys();
-        //if (extStopWordDictFiles != null) {
-        //	for (String extStopWordDictName : extStopWordDictFiles) {
-        //		logger.info("[Dict Loading] " + extStopWordDictName);
-        //
-        //		// 读取扩展词典文件
-        //		file = PathUtils.get(extStopWordDictName);
-        //		loadDictFile(_StopWords, file, false, "Extra Stopwords");
-        //	}
-        //}
+        List<String> extStopWordDictFiles = getExtStopWordDictionarys();
+        if (extStopWordDictFiles != null) {
+        	for (String extStopWordDictName : extStopWordDictFiles) {
+        		logger.info("[Dict Loading] " + extStopWordDictName);
+
+        		// 读取扩展词典文件
+        		file = PathUtils.get(extStopWordDictName);
+        		loadDictFile(_StopWords, file, false, "Extra Stopwords");
+        	}
+        }
 
         // 加载远程停用词典
         //List<String> remoteExtStopWordDictFiles = getRemoteExtStopWordDictionarys();

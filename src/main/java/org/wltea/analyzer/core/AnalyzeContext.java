@@ -327,10 +327,10 @@ class AnalyzeContext {
 		while(result != null){
     		//数量词合并
     		this.compound(result);
-			System.out.println("判断是否匹配停止词,有match操作");
+			System.out.format("判断'%s'是否匹配停止词,有match操作\n",String.valueOf(this.segmentBuff,result.getBegin(),result.getLength()));
     		if(Dictionary.getSingleton().isStopWord(this.segmentBuff ,  result.getBegin() , result.getLength())){
        			//是停止词继续取列表的下一个
-    			result = this.results.pollFirst(); 	//  ydd
+    			result = this.results.pollFirst(); 	//  ydd 如果有停用词,则会丢弃 的，而取 的确
     		}else{
 	 			//不是停止词, 生成lexeme的词元文本,输出 // TODO ??? 直到最好才设置匹配文本? 为什么
 	    		result.setLexemeText(String.valueOf(segmentBuff , result.getBegin() , result.getLength()));
